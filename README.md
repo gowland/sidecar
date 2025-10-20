@@ -15,6 +15,7 @@ Toy web server with sidecar.
 
 ## Architecture
 
+```
 ┌─────────────┐    ┌──────────────┐    ┌──────────┐
 │file-getter  │    │health-check  │    │main-app  │
 │(writes data)│    │(system stats)│    │(serves)  │
@@ -23,3 +24,4 @@ Toy web server with sidecar.
        └─────────────────────────────────────┘
                        │
                shared-volume
+```
