@@ -1,0 +1,36 @@
+services:
+  file-getter:
+    build:
+      context: ./file-getter
+      dockerfile: Dockerfile
+    environment:
+      - OUTPUT_DIR=/shared-data
+      - UPDATE_INTERVAL=15000
+    volumes:
+      - shared-volume:/shared-data
+
+  health-check:
+    build:
+      context: ./health-check
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+
+  main-app:
+    build:
+      context: ./main-app  
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - FILE_GETTER_DIR=/shared-data
+      - FILE_GETTER_NAME=data.txt
+      - PORT=3000
+    volumes:
+      - shared-volume:/shared-data
+    depends_on:
+      - file-getter
+      - health-check
+
+volumes:
+  shared-volume:
